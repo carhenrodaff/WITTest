@@ -31,7 +31,7 @@ define(['managerAPI',
         weightiat:{},
         //YBYB: change when copying back to the correct folder
         baseURL: './images/',
-        weightSet:raceSet,
+        weightSet:weightSet,
         blackLabels:blackLabels,
         whiteLabels:whiteLabels,
         //Select randomly what attribute words to see. 
@@ -86,7 +86,7 @@ define(['managerAPI',
             scriptUrl: 'explicits.js'
         }],
 
-        raceiat: [{
+        weightiat: [{
             type: 'time',
             name: 'weightiat',
             scriptUrl: 'weightiat.js'
@@ -116,7 +116,7 @@ define(['managerAPI',
     API.addSequence([
         { type: 'isTouch' }, //Use Minno's internal touch detection mechanism. 
         
-        { type: 'post', path: ['$isTouch', 'raceSet', 'blackLabels', 'whiteLabels'] },
+        { type: 'post', path: ['$isTouch', 'weightSet', 'blackLabels', 'whiteLabels'] },
 
         // apply touch only styles
         {
