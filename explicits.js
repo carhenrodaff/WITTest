@@ -4,7 +4,8 @@ define(['questAPI'], function(Quest){
 	
     /**
 	* Page prototype
-	*/
+	*/\
+	
     API.addPagesSet('basicPage',{
         noSubmit:false, //Change to true if you don't want to show the submit button.
         header: 'Questionnaire',
@@ -89,7 +90,17 @@ define(['questAPI'], function(Quest){
         name: 'Twhite_0to10',
         stem: 'How warm or cold do you feel towards <b><%= global.whiteLabels %></b>?'
     });
-
+    API.addQuestionsSet('userId',{
+	    type: 'textNumber',
+                    stem: 'What is your user ID?',
+                    min: 0,
+                    max: 65535,
+	    	    required: true,
+		    errorMsg: {
+			max: "Enter a value less than 65535",
+			number: "Please enter a non-decimal numeric value"
+		}
+    });
     API.addSequence([
         {
             mixer : 'random', 
@@ -105,7 +116,9 @@ define(['questAPI'], function(Quest){
                         {
                             inherit:'basicPage', 
                             questions: {inherit:'thermWhite'}							
-                        }
+                        },
+			    inherit:'basicPage',
+			    questions: {inherit:'userId'}
                     ]
                 },
                 {
