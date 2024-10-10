@@ -115,7 +115,7 @@ define(['pipAPI','https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/iat8.j
 			stimulusCss : {color:'#0000FF','font-size':'2.3em'}
 		},
         base_url : {//Where are your images at?
-            image : 'https://caffonsoabacus.github.io/WITTest/images'
+            image : 'https://baranan.github.io/minno-tasks/studies/datapipe.iat.examples/demo.iats/weight.images/'
         },
 		isTouch : global.isTouch
     });
