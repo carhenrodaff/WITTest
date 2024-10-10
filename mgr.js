@@ -1,7 +1,40 @@
-define(['pipAPI','https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/iat8.js'], function(APIConstructor, iatExtension){
-	var API = new APIConstructor();
+define(['managerAPI',
+		'https://cdn.jsdelivr.net/gh/minnojs/minno-datapipe@1.*/datapipe.min.js'], function(Manager){
+
+
+	//You can use the commented-out code to get parameters from the URL.
+	//const queryString = window.location.search;
+    //const urlParams = new URLSearchParams(queryString);
+    //const pt = urlParams.get('pt');
+
+	var API    = new Manager();
+	//const subid = Date.now().toString(16)+Math.floor(Math.random()*10000).toString(16);
+	init_data_pipe(API, 'MJGly1jNf9pUnhFIS5rOuqAktUzyfIZXVb81A3rsrD5S0Tr19GKFrggwp96cLID2kUn4OU',  {file_type:'csv'});	
+
+    API.setName('mgr');
+    API.addSettings('skip',true);
+
+    //Randomly select which of two sets of category labels to use.
+    let raceSet = API.shuffle(['a','b'])[0];
+    let blackLabels = [];
+    let whiteLabels = [];
+
+    if (weightSet == 'a') {
+        blackLabels.push('Thin People');
+        whiteLabels.push('Fat People');
+    } else {
+        blackLabels.push('Thin people');
+        whiteLabels.push('Fat people');
+    }
 
     API.addGlobal({
+        raceiat:{},
+        //YBYB: change when copying back to the correct folder
+        baseURL: './images/',
+        weightSet:raceSet,
+        blackLabels:blackLabels,
+        whiteLabels:whiteLabels,
+        //Select randomly what attribute words to see. 
         //Based on Axt, Feng, & Bar-Anan (2021).
         posWords : API.shuffle([
             'Love', 'Cheer', 'Friend', 'Pleasure',
@@ -25,98 +58,123 @@ define(['pipAPI','https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/iat8.j
         ])
     });
 
-    var global = API.getGlobal();
-    
-    return iatExtension({
-        category1 : {
-            name : 'Fat people', //Will appear in the data.
-            title : {
-                media : {word : 'Fat people'}, //Name of the category presented in the task.
-                css : {color:'#31940F','font-size':'1.8em'}, //Style of the category title.
-                height : 4 //Used to position the "Or" in the combined block.
-            }, 
-            stimulusMedia : [ //Stimuli content as PIP's media objects
-                {image: 'fatman1.jpg'},
-                {image: 'fatman3.jpg'},
-                {image: 'fatman4.jpg'},
-				{image: 'fatman5.jpg'},
-                {image: 'fatman6.jpg'},                 
-				{image: 'fatwoman1.jpg'},
-                {image: 'fatwoman2.jpg'},
-                {image: 'fatwoman3.jpg'},
-                {image: 'fatwoman4.jpg'},
-                {image: 'fatwoman6.jpg'}     
-    	    ],
-    		//Stimulus css (style)
-    		stimulusCss : {color:'#31940F','font-size':'2.3em'}
-        },    
-        category2 :    {
-            name : 'Thin people', //Will appear in the data.
-            title : {
-                media : {word : 'Thin people'}, //Name of the category presented in the task.
-                css : {color:'#31940F','font-size':'1.8em'}, //Style of the category title.
-                height : 4 //Used to position the "Or" in the combined block.
-            }, 
-            stimulusMedia : [ //Stimuli content as PIP's media objects
-                {image: 'thinman1.jpg'},
-                {image: 'thinman2.jpg'},
-                {image: 'thinman3.jpg'},
-				{image: 'thinman5.jpg'},
-                {image: 'thinman6.jpg'},                 
-				{image: 'thinwoman1.jpg'},
-                {image: 'thinwoman2.jpg'},
-                {image: 'thinwoman3.jpg'},
-				{image: 'thinwoman5.jpg'},
-                {image: 'thinwoman6.jpg'}  
-            ],
-    		//Stimulus css (style)
-    		stimulusCss : {color:'#31940F','font-size':'2.3em'}
-        },
-		attribute1 :
-		{
-			name : 'Bad words',
-			title : {
-				media : {word : 'Bad words'},
-				css : {color:'#0000FF','font-size':'1.8em'},
-				height : 4 //Used to position the "Or" in the combined block.
-			},
-			stimulusMedia : [ //Stimuli content as PIP's media objects
-				{word: global.negWords[0]},
-				{word: global.negWords[1]},
-				{word: global.negWords[2]},
-				{word: global.negWords[3]},
-				{word: global.negWords[4]},
-				{word: global.negWords[5]},
-				{word: global.negWords[6]},
-				{word: global.negWords[7]}
-			],
-			//Stimulus css
-			stimulusCss : {color:'#0000FF','font-size':'2.3em'}
-		},
-		attribute2 :
-		{
-			name : 'Good words',
-			title : {
-				media : {word : 'Good words'},
-				css : {color:'#0000FF','font-size':'1.8em'},
-				height : 4 //Used to position the "Or" in the combined block.
-			},
-			stimulusMedia : [ //Stimuli content as PIP's media objects
-				{word: global.posWords[0]},
-				{word: global.posWords[1]},
-				{word: global.posWords[2]},
-				{word: global.posWords[3]},
-				{word: global.posWords[4]},
-				{word: global.posWords[5]},
-				{word: global.posWords[6]},
-				{word: global.posWords[7]}
-			],
-			//Stimulus css
-			stimulusCss : {color:'#0000FF','font-size':'2.3em'}
-		},
-        base_url : {//Where are your images at?
-            image : 'https://caffonsoabacus.github.io/WITTest/images'
-        },
-		isTouch : global.isTouch
+    API.addTasksSet({
+        instructions: [{
+            type: 'message',
+            buttonText: 'Continue'
+        }],
+
+        intro: [{
+            inherit: 'instructions',
+            name: 'intro',
+            templateUrl: 'intro.jst',
+            title: 'Intro',
+            header: 'Welcome'
+        }],
+
+        weightiat_instructions: [{
+            inherit: 'instructions',
+            name: 'weightiat_instructions',
+            templateUrl: 'weightiat_instructions.jst',
+            title: 'IAT Instructions',
+            header: 'Implicit Association Test'
+        }],
+
+        explicits: [{
+            type: 'quest',
+            name: 'explicits',
+            scriptUrl: 'explicits.js'
+        }],
+
+        raceiat: [{
+            type: 'time',
+            name: 'weightiat',
+            scriptUrl: 'weightiat.js'
+        }],
+
+        lastpage: [{
+            type: 'message',
+            name: 'lastpage',
+            templateUrl: 'lastpage.jst',
+            title: 'End',
+            //Uncomment the following if you want to end the study here.
+            //last:true, 
+            header: 'You have completed the study'
+        }], 
+        
+        //Use if you want to redirect the participants elsewhere at the end of the study
+        redirect:
+        [{ 
+			//Replace with any URL you need to put at the end of your study, or just remove this task from the sequence below
+            type:'redirect', name:'redirecting', url: 'https://www.google.com/search' 
+        }],
+		
+		//This task waits until the data are sent to the server.
+        uploading: uploading_task({header: 'just a moment', body:'Please wait, sending data... '})
     });
+
+    API.addSequence([
+        { type: 'isTouch' }, //Use Minno's internal touch detection mechanism. 
+        
+        { type: 'post', path: ['$isTouch', 'raceSet', 'blackLabels', 'whiteLabels'] },
+
+        // apply touch only styles
+        {
+            mixer:'branch',
+            conditions: {compare:'global.$isTouch', to: true},
+            data: [
+                {
+                    type: 'injectStyle',
+                    css: [
+                        '* {color:red}',
+                        '[piq-page] {background-color: #fff; border: 1px solid transparent; border-radius: 4px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); margin-bottom: 20px; border-color: #bce8f1;}',
+                        '[piq-page] > ol {margin: 15px;}',
+                        '[piq-page] > .btn-group {margin: 0px 15px 15px 15px;}',
+                        '.container {padding:5px;}',
+                        '[pi-quest]::before, [pi-quest]::after {content: " ";display: table;}',
+                        '[pi-quest]::after {clear: both;}',
+                        '[pi-quest] h3 { border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; padding: 10px 15px; color: inherit; font-size: 2em; margin-bottom: 20px; margin-top: 0;background-color: #d9edf7;border-color: #bce8f1;color: #31708f;}',
+                        '[pi-quest] .form-group > label {font-size:1.2em; font-weight:normal;}',
+
+                        '[pi-quest] .btn-toolbar {margin:15px;float:none !important; text-align:center;position:relative;}',
+                        '[pi-quest] [ng-click="decline($event)"] {position:absolute;right:0;bottom:0}',
+                        '[pi-quest] [ng-click="submit()"] {width:30%;line-height: 1.3333333;border-radius: 6px;}',
+                        // larger screens
+                        '@media (min-width: 480px) {',
+                        ' [pi-quest] [ng-click="submit()"] {width:30%;padding: 10px 16px;font-size: 1.6em;}',
+                        '}',
+                        // phones and smaller screens
+                        '@media (max-width: 480px) {',
+                        ' [pi-quest] [ng-click="submit()"] {padding: 8px 13px;font-size: 1.2em;}',
+                        ' [pi-quest] [ng-click="decline($event)"] {font-size: 0.9em;padding:3px 6px;}',
+                        '}'
+                    ]
+                }
+            ]
+        },
+        
+        
+        {inherit: 'intro'},
+        {
+            mixer:'random',
+            data:[
+                {inherit: 'explicits'},
+
+                // force the instructions to preceed the iat
+                {
+                    mixer: 'wrapper',
+                    data: [
+                        {inherit: 'weightiat_instructions'},
+                        {inherit: 'weightiat'}
+                    ]
+                }
+            ]
+        },
+
+		{inherit: 'uploading'},
+        {inherit: 'lastpage'},
+        {inherit: 'redirect'}
+    ]);
+
+    return API.script;
 });
