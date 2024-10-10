@@ -15,7 +15,7 @@ define(['managerAPI',
     API.addSettings('skip',true);
 
     //Randomly select which of two sets of category labels to use.
-    let raceSet = API.shuffle(['a','b'])[0];
+    let weightSet = API.shuffle(['a','b'])[0];
     let blackLabels = [];
     let whiteLabels = [];
 
@@ -28,7 +28,7 @@ define(['managerAPI',
     }
 
     API.addGlobal({
-        raceiat:{},
+        weightiat:{},
         //YBYB: change when copying back to the correct folder
         baseURL: './images/',
         weightSet:raceSet,
