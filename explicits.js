@@ -115,10 +115,10 @@ define(["questAPI"], function (Quest) {
     type: "textNumber",
     stem: "What is your user ID?",
     min: 0,
-    max: 65535,
+    max: 128,
     required: true,
     errorMsg: {
-      max: "Enter a value less than 65535",
+      max: "Enter a value less than 128",
       number: "Please enter a non-decimal numeric value",
     },
   });
