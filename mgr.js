@@ -9,11 +9,7 @@ define([
 
   var API = new Manager();
   //const subid = Date.now().toString(16)+Math.floor(Math.random()*10000).toString(16);
-  init_data_pipe(
-    API,
-    "MJGly1jNf9pUnhFIS5rOuqAktUzyfIZXVb81A3rsrD5S0Tr19GKFrggwp96cLID2kUn4OU",
-    { file_type: "csv" }
-  );
+  init_data_pipe(API, "q0EUCMxhz8yo", { file_type: "csv" });
 
   API.setName("mgr");
   API.addSettings("skip", true);
@@ -172,11 +168,11 @@ define([
         //Replace with any URL you need to put at the end of your study, or just remove this task from the sequence below
         type: "redirect",
         name: "redirecting",
-        url: "https://sites.brown.edu/darlinglab",
+        url: "https://sites.brown.edu/darlinglab/project-wit/",
       },
     ],
 
-    //This task waits until the data are sent to the server.
+    //This task waits until the data is sent to the server.
     uploading: uploading_task({
       header: "just a moment",
       body: "Please wait, sending data... ",
