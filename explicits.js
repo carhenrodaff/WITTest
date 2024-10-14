@@ -130,14 +130,14 @@ define(["questAPI"], function (Quest) {
           mixer: "random",
           wrapper: true,
           data: [
-            {
-              inherit: "basicPage",
-              questions: { inherit: "thermBlack" },
-            },
-            {
-              inherit: "basicPage",
-              questions: { inherit: "thermWhite" },
-            },
+            // {
+            //   inherit: "basicPage",
+            //   questions: { inherit: "thermBlack" },
+            // },
+            // {
+            //   inherit: "basicPage",
+            //   questions: { inherit: "thermWhite" },
+            // },
             {
               inherit: "basicPage",
               questions: { inherit: "userId" },
